@@ -1,0 +1,6 @@
+C:\Users\texas\OneDrive\programs\SimpleRPG\SimpleRPG\bin\Debug\SimpleRPG.exe.config
+C:\Users\texas\OneDrive\programs\SimpleRPG\SimpleRPG\bin\Debug\SimpleRPG.exe
+C:\Users\texas\OneDrive\programs\SimpleRPG\SimpleRPG\bin\Debug\SimpleRPG.pdb
+C:\Users\texas\OneDrive\programs\SimpleRPG\SimpleRPG\obj\Debug\SimpleRPG.csprojResolveAssemblyReference.cache
+C:\Users\texas\OneDrive\programs\SimpleRPG\SimpleRPG\obj\Debug\SimpleRPG.exe
+C:\Users\texas\OneDrive\programs\SimpleRPG\SimpleRPG\obj\Debug\SimpleRPG.pdb
