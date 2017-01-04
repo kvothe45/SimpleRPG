@@ -21,8 +21,9 @@ namespace SimpleRPG
             //[4,0] treasure x coordinate [4,1] treasure y coordinate
             int[,] roomCoordinates = new int[5, 2];
             Dictionary<string, CoordPoint> roomCoord = new Dictionary<string, CoordPoint>();
-            Dictionary<string, string> fighterStats = new Dictionary<string, string>();
-            InstantiateDictionary.instatiateDictionary(ref fighterStats);
+            Dictionary<string, int> fighterStats = new Dictionary<string, int>();
+            Dictionary<string, string> fighterInfo = new Dictionary<string, string>();
+            InstantiateDictionary.instatiateDictionary(ref fighterStats, ref fighterInfo);
             InstantiateDictionary.instantiateCoordinates(ref roomCoord);
 
             bool Game_Over = false;

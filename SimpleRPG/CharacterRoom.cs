@@ -116,16 +116,16 @@ namespace SimpleRPG
             int shiftY = roomCoordinates[1, 1] - roomCoordinates[0, 1];
             int shiftX = roomCoordinates[1, 0] - roomCoordinates[0, 0];
             char wall = '#'; //Character used to draw the wall of the dungeon room
+            char floor = '%';
 
 
             for (x = roomCoordinates[0, 0]; x <= roomCoordinates[1, 0]; x++)
             {
                 Console.SetCursorPosition(x, y);
                 Console.Write(wall);
-                Console.SetCursorPosition(x, y + shiftY);
-                Console.Write(wall);
             }
             x--;
+
             for (y = roomCoordinates[0, 1]; y <= roomCoordinates[1, 1]; y++)
             {
                 Console.SetCursorPosition(x, y);
@@ -134,15 +134,22 @@ namespace SimpleRPG
                 Console.Write(wall);
             }
 
+            y = roomCoordinates[0, 1];
+            for (x = roomCoordinates[0, 0]; x <= roomCoordinates[1, 0]; x++)
+            {
+                Console.SetCursorPosition(x, y + shiftY);
+                Console.Write(floor);
+            }
+
         }
 
         public static void createRoom(ref int[,] roomCoordinates)
         {
-            Random rnd = new Random();
+            //Random rnd = new Random();
 
             roomCoordinates[0, 0] = 1;
             roomCoordinates[0, 1] = 1;
-            roomCoordinates[1, 0] = 32;
+            roomCoordinates[1, 0] = 122;
             roomCoordinates[1, 1] = 5;
             //roomCoordinates[1, 0] = rnd.Next(20, 41);
             //if (roomCoordinates[1, 0] % 2 == 0)

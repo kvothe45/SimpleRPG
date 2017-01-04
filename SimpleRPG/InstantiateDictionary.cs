@@ -8,25 +8,32 @@ namespace SimpleRPG
 {
     class InstantiateDictionary
     {
-        public static void instatiateDictionary(ref Dictionary<string, string> fighterStats)
+        public static void instatiateDictionary(ref Dictionary<string, int> fighterStats, ref Dictionary<string, string> fighterInfo)
         {
-            fighterStats.Add("Name", "Barry");
-            fighterStats.Add("HPCurrent", "20");
-            fighterStats.Add("HPMax", "100");
-            fighterStats.Add("XPCurrent", "10");
-            fighterStats.Add("XPMax", "100");
-            fighterStats.Add("Level", "1");
-            fighterStats.Add("Strength", "18");
-            fighterStats.Add("Agility", "18");
-            fighterStats.Add("Intelligence", "18");
-            fighterStats.Add("Luck", "18");
-            fighterStats.Add("Charisma", "18");
-            fighterStats.Add("Constitution", "18");
-            fighterStats.Add("Spirit", "18");
-            fighterStats.Add("Fury", "18");
-            fighterStats.Add("Noteriety", "18");
-            fighterStats.Add("Fame", "18");
-            fighterStats.Add("Money", "100");
+            fighterStats["Strength"] = 18;
+            fighterStats["Agility"] = 18;
+            fighterStats["Intelligence"] = 18;
+            fighterStats["Luck"] = 18;
+            fighterStats["Charisma"] = 18;
+            fighterStats["Constitution"] = 18;
+            fighterStats["HPCurrent"] = 20;
+            fighterStats["HPMax"] = 100;
+            fighterStats["XPCurrent"] = 10;
+            fighterStats["XPMax"] = 100;
+            fighterStats["Level"] = 1;
+            fighterStats["Spirit"] = 0;
+            fighterStats["Fury"] = 0;
+            fighterStats["Noteriety"] = 0;
+            fighterStats["Fame"] = 0;
+            fighterStats["Money"] = 100;
+            fighterStats["Kills"] = 0;
+
+            fighterInfo["Name"] = "Barry";
+            fighterInfo["Weapon"] = "fists";
+            fighterInfo["Armor"] = "skin";
+            fighterInfo["Description"] = "Big, ugly, and tough.  He eats rust and pisses nails";
+            fighterInfo["TagLineTough"] = "Float like a butterfly, sting like a bee!  I am the Greatest!";
+            fighterInfo["TagLineSoft"] = "Oooo, you're going to get it now!";
         }
 
         public static void instantiateCoordinates(ref Dictionary<string, CoordPoint> roomCoordinates)
@@ -37,7 +44,7 @@ namespace SimpleRPG
 
             roomCoordinates.Add("upperLeft", upperLeftCoord);
 
-            Console.WriteLine(roomCoordinates["upperLeft"].X);
+            //Console.WriteLine(roomCoordinates["upperLeft"].X);
         }
     }
 }
