@@ -8,19 +8,27 @@ namespace SimpleRPG
 {
     partial class Menu
     {
-        public static void introDescription()
+        public static void introDescription(out int xCoord, out int yCoord)
         {
-            Console.Clear();
-            Console.WriteLine("***Welcome to the world of Gladius***");
-            Console.WriteLine();
-            //TO-DO write story
-            Console.WriteLine("Insert beginning story here, how did character get here?  I think I want to be oppressed by the Caesar, ");
-            Console.WriteLine("Maybe have an intimite family relationship with him, and fight him in the end. Yes, just like the movie.");
-            Console.WriteLine();
+            xCoord = 1;
+            yCoord = 7;
+
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("***Welcome to the world of Gladius***");
+            yCoord += 2;
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("Insert beginning story here, how did character get here?  I think I want to be oppressed by the Caesar, ");
+            yCoord++;
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("Maybe have an intimite family relationship with him, and fight him in the end. Yes, just like the movie.");
+            yCoord += 2;
+            Console.SetCursorPosition(xCoord, yCoord);
             Console.WriteLine("***Roll your character stats until satisfied, Gladiator***");
-            Console.WriteLine();
+            yCoord += 2;
+            Console.SetCursorPosition(xCoord, yCoord);
             Console.WriteLine("Can you fight, or are you just another morsel for Caesar's lions?");
-            Console.WriteLine();
+            yCoord++;
+
         }
 
         public static void MainMenu(GameCharacter f, int enemyPick)

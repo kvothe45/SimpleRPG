@@ -48,7 +48,6 @@
     <Compile Include="CoordPoint.cs" />
     <Compile Include="GameCharacter.cs" />
     <Compile Include="GameScreen.cs" />
-    <Compile Include="InstantiateDictionary.cs" />
     <Compile Include="Menu_Combat.cs" />
     <Compile Include="Menu_Arena.cs" />
     <Compile Include="Menu_Main.cs" />

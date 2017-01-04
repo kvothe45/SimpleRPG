@@ -13,7 +13,7 @@ namespace SimpleRPG
 
             int y = Console.LargestWindowHeight;
             int x = Console.LargestWindowWidth;
-            int menuXCoordStart = 1, playerStatXCoordStart = 53, enemyStatXCoordStart = 106, statAndMenuYCoordStart = 18; 
+            int menuXCoordStart = 1, playerStatXCoordStart = 53, enemyStatXCoordStart = 106, infoXCoordStart = 1, xCoord, yCoord; 
             //all the coordinates that pertain to the room
             //[0,0] upper left x coordinate for room [0,1] upper left y coordinate for room
             //[1,0] lower right x coordinate for room [1,1] lower right y coordinate for room
@@ -32,10 +32,11 @@ namespace SimpleRPG
                 // Draw Stats;
                 GameScreen.drawScreen();
                 CharacterRoom.createRoom(ref roomCoordinates); //randomly create the size of the room at least 10 x 10
-                CharacterInfoBlock.InfoBlockDisplay(menuXCoordStart, statAndMenuYCoordStart, fighter);
-                CharacterInfoBlock.InfoBlockDisplay(playerStatXCoordStart, statAndMenuYCoordStart, fighter);
-                CharacterInfoBlock.InfoBlockDisplay(enemyStatXCoordStart, statAndMenuYCoordStart, fighter);
-                CharacterInfoBlock.ClearInfoBlock(playerStatXCoordStart, statAndMenuYCoordStart);
+                Menu.introDescription(out xCoord, out yCoord);
+                GameCharacter.CharCreator(xCoord, yCoord, fighter);
+                CharacterInfoBlock.StatMenuBlockDisplay(menuXCoordStart, fighter);
+                CharacterInfoBlock.StatMenuBlockDisplay(playerStatXCoordStart, fighter);
+                CharacterInfoBlock.StatMenuBlockDisplay(enemyStatXCoordStart, fighter);
                 CharacterRoom.characterMovement(ref roomCoordinates);
 
             } while (Game_Over == false);

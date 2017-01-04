@@ -168,16 +168,18 @@ namespace SimpleRPG
             return agilityBonus;
         }
 
-        public static GameCharacter CharCreator(GameCharacter Character)
+        public static GameCharacter CharCreator(int xCoord, int yCoord, GameCharacter Character)
         {
             //creates new fighter and invokes roll character stats method as a parameter.  
             Dictionary<string, int> characterStats = Character.CharacterStats;
             Dictionary<string, string> characterInfo = Character.CharacterInfo;
+            int originalYCoord = 7;
 
             //gets character name and assigns to Name prop
+            Console.SetCursorPosition(xCoord, yCoord);
             Console.Write("Tell me your name, prisoner. ");
             Character.CharacterInfo["Name"] = Console.ReadLine();
-            RollCharStats(ref characterStats);
+            RollCharStats(ref characterStats, xCoord, originalYCoord);
             Character.CharacterStats = characterStats;
             //int enemyPick = 1;
             //creates new MainMenu and passes fighter as a parameter to the method (same instance throughout program is the goal)
@@ -185,41 +187,55 @@ namespace SimpleRPG
             return Character;
         }
 
-        public static void RollCharStats(ref Dictionary<string, int> characterStats)
+        public static void RollCharStats(ref Dictionary<string, int> characterStats, int xCoord, int yCoord)
         {
-            int strengthRaw, agilityRaw, intelligenceRaw, luckRaw, charismaRaw,
-            constitutionRaw, maxHitPointsRaw, currentHitPointsRaw, maxRaw;
-
+            
             // just keeps the while loop going
             bool rolling = true;
+            int originalYCoord = yCoord;
 
             while (rolling)
             {
                 //roll stats for GameCharacter
                 #region actual rolls for character core stats
-                strengthRaw = Roller.rollXSidedDice(6, 2, 3);
-                agilityRaw = Roller.rollXSidedDice(6, 2, 3);
-                intelligenceRaw = Roller.rollXSidedDice(6, 2, 3);
-                luckRaw = Roller.rollXSidedDice(6, 2, 3);
-                charismaRaw = Roller.rollXSidedDice(6, 2, 3);
-                constitutionRaw = Roller.rollXSidedDice(6, 2, 3);
-                maxHitPointsRaw = (constitutionRaw * 4);
-                maxRaw = maxHitPointsRaw;
-                currentHitPointsRaw = maxRaw;
+                characterStats["Strength"] = Roller.rollXSidedDice(6, 2, 3);
+                characterStats["Agility"] = Roller.rollXSidedDice(6, 2, 3);
+                characterStats["Intelligence"] = Roller.rollXSidedDice(6, 2, 3);
+                characterStats["Luck"] = Roller.rollXSidedDice(6, 2, 3);
+                characterStats["Charisma"] = Roller.rollXSidedDice(6, 2, 3);
+                characterStats["Constitution"] = Roller.rollXSidedDice(6, 2, 3);
+                characterStats["MaxHitPoints"] = (characterStats["Constitution"] * 4);
+                characterStats["CurrentHitPoints"] = characterStats["MaxHitPoints"];
                 #endregion
 
-                #region displaying stats to the user and prompting to continue or roll again
-                Console.WriteLine("Your strength is:   \t\t {0}  \n", strengthRaw);
-                Console.WriteLine("Your agility is:\t\t  {0} \n", agilityRaw);
-                Console.WriteLine("Your intelligence is:\t\t  {0} \n", intelligenceRaw);
-                Console.WriteLine("Your luck is:\t\t\t  {0} \n", luckRaw);
-                Console.WriteLine("Your charisma is:\t\t  {0} \n", charismaRaw);
-                Console.WriteLine("Your constitution is:\t\t  {0} \n", constitutionRaw);
-                Console.WriteLine("Your max hit points are:\t  {0} \n", maxHitPointsRaw);
-                Console.WriteLine("Your current hit points are:\t  {0} \n", currentHitPointsRaw);
+                CharacterInfoBlock.ClearInfoBlock();
 
-                Console.Write("Are you satisfied with your stats and ready to proceed? (Y/N)\n ");
-                string input = Console.ReadLine();
+                #region displaying stats to the user and prompting to continue or roll again
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Your strength is:   \t\t {0}", characterStats["Strength"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Your agility is:\t\t  {0}", characterStats["Agility"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Your intelligence is:\t\t  {0}", characterStats["Intelligence"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Your luck is:\t\t\t  {0}", characterStats["Luck"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Your charisma is:\t\t  {0}", characterStats["Charisma"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Your constitution is:\t\t  {0}", characterStats["Constitution"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Your max hit points are:\t  {0}", characterStats["MaxHitPoints"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Are you satisfied with your stats and ready to proceed? (Y/N)");
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
                 #endregion
 
 
@@ -227,35 +243,34 @@ namespace SimpleRPG
                 // and adds stats rolled in last region to the Dictionary returned in
                 // this method
                 #region if statement
-
-                if (input == "Y" || input == "y")
-                {// adding rolled attributes to dictionary 
-                    characterStats["Strength"] = strengthRaw;
-                    characterStats["Agility"] = agilityRaw;
-                    characterStats["Intelligence"] = intelligenceRaw;
-                    characterStats["Luck"] = luckRaw;
-                    characterStats["Charisma"] = charismaRaw;
-                    characterStats["Constitution"] = constitutionRaw;
-                    characterStats["MaxHitPoints"] = maxHitPointsRaw;
-                    characterStats["CurrentHitPoints"] = currentHitPointsRaw;
-                    characterStats["Spirit"] = 0;
-                    characterStats["Fury"] = 0;
-                    characterStats["Notoriety"] = 0;
-                    characterStats["Fame"] = 0;
-                    characterStats["Money"] = 0;
-                    characterStats["MoneyEarned"] = 0;
-                    characterStats["Level"] = 1;
-                    characterStats["Kills"] = 0;
-                    rolling = false;
-                    break;
-                }
-                else if (input == "N" || input == "n")
-                {// continue loop
-                    rolling = true;
-                }
-                else
-                {// try again if fat-finger
-                    Console.WriteLine("Please enter a valid input");
+                var input = Console.ReadKey().Key;
+                switch (input)
+                {
+                    //goes to the Arena Menu (TO-DO)
+                    case ConsoleKey.Y:
+                    // adding rolled attributes to dictionary 
+                        characterStats["Spirit"] = 0;
+                        characterStats["Fury"] = 0;
+                        characterStats["Notoriety"] = 0;
+                        characterStats["Fame"] = 0;
+                        characterStats["Money"] = 0;
+                        characterStats["MoneyEarned"] = 0;
+                        characterStats["Level"] = 1;
+                        characterStats["Kills"] = 0;
+                        rolling = false;
+                        break;
+                    case ConsoleKey.N:
+                        // continue loop
+                        rolling = true;
+                        yCoord = originalYCoord;
+                        break;
+                    default:
+                        // try again if fat-finger
+                        yCoord++;
+                        Console.SetCursorPosition(xCoord, yCoord);
+                        Console.Write("Please enter a valid input");
+                        yCoord = originalYCoord;
+                        break;
                     #endregion
                 }// end if
 
@@ -319,8 +334,16 @@ namespace SimpleRPG
 
         public void PlayerCharacterDie(GameCharacter fighter)
         {
-            Console.WriteLine("{0} has died and has gone to Valhalla with the others who \n have died a glorious death in the arena.", fighter.CharacterInfo["Name"]);
-            Console.WriteLine("Do you wish to start a new game?");
+            int xCoord = 1, yCoord = 7, originalYCoord = yCoord;
+
+            CharacterInfoBlock.ClearInfoBlock();
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("{0} has died and has gone to Valhalla with the others who \n have died a glorious death in the arena.", fighter.CharacterInfo["Name"]);
+            yCoord++;
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("Do you wish to start a new game?");
+            yCoord++;
+            Console.SetCursorPosition(xCoord, yCoord);
             string yesno = Console.ReadLine();
             yesno = yesno.ToLower();
             switch (yesno)
@@ -330,12 +353,14 @@ namespace SimpleRPG
                         //enter game stats here
                         int enemyPick = 1;
 
-                        Menu.MainMenu(GameCharacter.CharCreator(fighter), enemyPick);
+                        Menu.MainMenu(GameCharacter.CharCreator(xCoord, originalYCoord, fighter), enemyPick);
                         break;
                     }
                 case "n":
                     {
                         //enter stats here (kills, money, fame, etc.)
+                        yCoord++;
+                        Console.SetCursorPosition(xCoord, yCoord);
                         Console.WriteLine("Come back to the arena soon");
                         Menu.QuitGame();
                         break;

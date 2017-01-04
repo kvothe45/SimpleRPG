@@ -8,15 +8,15 @@ namespace SimpleRPG
 {
     class CharacterInfoBlock
     {
-        public static void InfoBlockDisplay(int startXCoord, int startYCoord, GameCharacter character)
+        public static void StatMenuBlockDisplay(int xCoord, GameCharacter character)
         {
-            int count = 1;
+            int count = 1, yCoord = 18;
 
-            Console.SetCursorPosition(startXCoord, startYCoord);
+            Console.SetCursorPosition(xCoord, yCoord);
             Console.Write("Name:  {0}", character.CharacterInfo["Name"]);
             foreach (KeyValuePair<string, int> element in character.CharacterStats)
             {
-                Console.SetCursorPosition(startXCoord, startYCoord + count);
+                Console.SetCursorPosition(xCoord, yCoord + count);
                 Console.Write("{0}:  {1}", element.Key, element.Value);
                 count++;
             }
@@ -24,20 +24,32 @@ namespace SimpleRPG
 
         }
 
-        public static void ClearInfoBlock(int startXCoord, int startYCoord)
+        public static void ClearInfoBlock()
         {
-            int infoBlockLength = 52, infoBlockDepth = 23;
-            string infoBlockEraseString = "";
+            int infoBlockLength = 158, infoBlockDepth = 10, xCoord = 1, yCoord = 7;
 
-            for (int i = 0; i <= infoBlockLength; i++)
-                infoBlockEraseString += " ";
+            ClearBlock(xCoord, yCoord, infoBlockLength, infoBlockDepth);
+        }
 
-            for (int i = 0; i <= infoBlockDepth; i++)
+        public static void ClearStatMenuBlock(int xCoord)
+        {
+            int statBlockLength = 52, statBlockDepth = 23, yCoord = 18;
+
+            ClearBlock(xCoord, yCoord, statBlockLength, statBlockDepth);
+        }
+
+        public static void ClearBlock(int xCoord, int yCoord, int blockLength, int blockDepth)
+        {
+            string eraseString = "";
+
+            for (int i = 0; i <= blockLength; i++)
+                eraseString += " ";
+
+            for (int i = 0; i <= blockDepth; i++)
             {
-                Console.SetCursorPosition(startXCoord, startYCoord + i);
-                Console.Write(infoBlockEraseString);
+                Console.SetCursorPosition(xCoord, yCoord + i);
+                Console.Write(eraseString);
             }
-                           
         }
     }
 }
