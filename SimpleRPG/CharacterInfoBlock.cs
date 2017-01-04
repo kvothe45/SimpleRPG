@@ -8,10 +8,11 @@ namespace SimpleRPG
 {
     class CharacterInfoBlock
     {
-        public static void StatMenuBlockDisplay(int xCoord, GameCharacter character)
+        public static void StatBlockDisplay(int xCoord, GameCharacter character)
         {
             int count = 1, yCoord = 18;
 
+            ClearStatMenuBlock(xCoord);
             Console.SetCursorPosition(xCoord, yCoord);
             Console.Write("Name:  {0}", character.CharacterInfo["Name"]);
             foreach (KeyValuePair<string, int> element in character.CharacterStats)
@@ -24,9 +25,9 @@ namespace SimpleRPG
 
         }
 
-        public static void ClearInfoBlock()
+        public static void ClearInfoBlock(int yCoord = 7, int infoBlockDepth = 10)
         {
-            int infoBlockLength = 158, infoBlockDepth = 10, xCoord = 1, yCoord = 7;
+            int infoBlockLength = 158, xCoord = 1;
 
             ClearBlock(xCoord, yCoord, infoBlockLength, infoBlockDepth);
         }
@@ -42,7 +43,7 @@ namespace SimpleRPG
         {
             string eraseString = "";
 
-            for (int i = 0; i <= blockLength; i++)
+            for (int i = 0; i < blockLength; i++)
                 eraseString += " ";
 
             for (int i = 0; i <= blockDepth; i++)

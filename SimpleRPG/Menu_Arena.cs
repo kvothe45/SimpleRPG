@@ -11,20 +11,34 @@ namespace SimpleRPG
         public static void ArenaMenu(GameCharacter f, int enemyPick)
         {
             bool keepGoing = true;
+            int xCoord = 1, yCoord = 18, originalYCoord = yCoord;
 
             do
             {
-                Console.Clear();
-                Console.WriteLine();
-                Console.WriteLine("***Arena Menu***");
-                Console.WriteLine();
-                Console.WriteLine("A massive, scarred-up, retired Gladiator looks you up and down and says: ");
-                Console.WriteLine("Welcome to the Arena, runt. What can I do for you? ");
-                Console.WriteLine();
-                Console.WriteLine("P)ractice (***not implemented yet***");
-                Console.WriteLine("F)ight Opponent");
-                Console.WriteLine("E)quipment Store(***not implemented yet***");
-                Console.WriteLine("G)o back to Main Menu");
+                CharacterInfoBlock.ClearStatMenuBlock(xCoord);
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("***Arena Menu***");
+                yCoord += 2;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("A massive, scarred-up, retired Gladiator looks you");
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("up and down and says: ");
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Welcome to the Arena, runt. What can I do for you? ");
+                yCoord += 2;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("P)ractice (***not implemented yet***");
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("F)ight Opponent");
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("E)quipment Store(***not implemented yet***");
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("G)o back to Main Menu");
                 var input = Console.ReadKey().Key;
                 try
                 {
@@ -37,8 +51,9 @@ namespace SimpleRPG
                         case ConsoleKey.F:
                             GameCharacter enemy = new GameCharacter();
                             enemy = StaticEnemies.PreMadeEnemies(enemy, f, enemyPick);
-                            Console.WriteLine();
-                            Console.WriteLine("You will be fighting {0} in the arena!", enemy.CharacterInfo["Name"]);
+                            yCoord += 2;
+                            Console.SetCursorPosition(xCoord, yCoord);
+                            Console.Write("You will be fighting {0} in the arena!", enemy.CharacterInfo["Name"]);
                             Menu.CombatMenu(f, enemy, enemyPick);
                             break;
                         //goes to Gladiator Store (TO-DO)
@@ -57,7 +72,11 @@ namespace SimpleRPG
                 }//end try
                 catch (FormatException)
                 {
-                    Console.WriteLine("Invalid input, try again.");
+                    yCoord++;
+                    Console.SetCursorPosition(xCoord, yCoord);
+                    Console.Write("Invalid input.  Press any key to try again.");
+                    var errorKeystroke = Console.ReadKey().Key;
+                    yCoord = originalYCoord;
                 }//end catch
             }
             while (keepGoing == true);

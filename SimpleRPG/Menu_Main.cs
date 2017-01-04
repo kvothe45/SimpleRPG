@@ -34,19 +34,33 @@ namespace SimpleRPG
         public static void MainMenu(GameCharacter f, int enemyPick)
         {
             bool keepGoing = true;
+            int xCoord = 1, yCoord = 18, originalYCoord = yCoord;
 
             do
             {
-                Console.Clear();
-                Console.WriteLine();
-                Console.WriteLine("***Gladius Main Menu***");
-                Console.WriteLine();
-                Console.WriteLine("Choose an option, {0}, and make it quick.", f.CharacterInfo["Name"]);
-                Console.WriteLine("The Emperor arrives soon, and he wants to see blood.\n");
-                Console.WriteLine("E)nter Arena");
-                Console.WriteLine("C)haracter Options ***NOT IMPLEMENTED(yet)***");
-                Console.WriteLine("V)iew Active Gladiator***NOT IMPLEMENTED(yet)***");
-                Console.WriteLine("Q)uit");
+                CharacterInfoBlock.ClearStatMenuBlock(xCoord);
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("***Gladius Main Menu***");
+                yCoord += 2;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Choose an option, {0}, and make it quick.", f.CharacterInfo["Name"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("The Emperor arrives soon, and he wants to see blood.");
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("E)nter Arena");
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("C)haracter Options ***NOT IMPLEMENTED(yet)***");
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("V)iew Active Gladiator***NOT IMPLEMENTED(yet)***");
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Q)uit");
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
                 var input = Console.ReadKey().Key;
                 try
                 {//make sure user doesn't fat finger this menu, 
@@ -80,24 +94,38 @@ namespace SimpleRPG
                 }//end try
                 catch (FormatException)
                 {
-                    Console.WriteLine("\nInvalid input, please try again.");
-                    //MainMenu mm = new MainMenu(f, enemyPick);
+                    yCoord++;
+                    Console.SetCursorPosition(xCoord, yCoord);
+                    Console.WriteLine("Invalid input.  Press any key to try again.");
+                    var errorKeystroke = Console.ReadKey().Key;
+                    yCoord = originalYCoord;
                 }//end catch
             }
             while (keepGoing == true);
         }
 
-        public static void WinGame(GameCharacter f)
+        public static void WinGame()
         {
-            Console.WriteLine("You have destroyed the evil Caesar and Rome is soon overrun by Barbarians.\n  Congratulations, you just ruined civilization as we know it.");
-            Console.ReadLine();
+            int xCoord = 1, yCoord = 7;
+
+            CharacterInfoBlock.ClearInfoBlock();
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("You have destroyed the evil Caesar and Rome is soon overrun by Barbarians.  Congratulations, you just ruined civilization as we know it.");
+            yCoord++;
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("Press any key to exit.");
+            var input = Console.ReadKey().Key;
             System.Environment.Exit(1);
         }
 
         public static void QuitGame()
         {
-            Console.WriteLine("Thank you for playing, goodbye for now. Press any key to continue.");
-            Console.ReadLine();
+            int xCoord = 1, yCoord = 7;
+
+            CharacterInfoBlock.ClearInfoBlock();
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("Thank you for playing, goodbye for now. Press any key to continue.");
+            var input = Console.ReadKey().Key;
             System.Environment.Exit(1);
 
         }

@@ -276,56 +276,87 @@ namespace SimpleRPG
 
             }// end while
 
+            CharacterInfoBlock.ClearInfoBlock();
+
         }//end RollCharStats method 
 
         public void LevelUp()
         {
-            int addStats = 0;
-            int pickStat = 0;
-            int choice = 2;
+            int choice = 2, xCoord = 1, yCoord = 7, originalYCoord = yCoord;
 
             do
             {
-                Console.Clear();
-                Console.WriteLine();
-                Console.WriteLine("*You feel empowered from all of your recent combat experience and training*");
-                Console.WriteLine("Congratulations on your advancement, please choose 2 ability scores to improve:");
-                Console.WriteLine("1) Strength - current value {0}", CharacterStats["Strength"]);
-                Console.WriteLine("2) Agility - current value {0}", CharacterStats["Agility"]);
-                Console.WriteLine("3) Intelligence - current value {0}", CharacterStats["Intelligence"]);
-                Console.WriteLine("4) Charisma - current value {0}", CharacterStats["Charisma"]);
-                Console.WriteLine("5) Luck - current value {0}", CharacterStats["Luck"]);
-                Console.WriteLine("6) Constitution - current value {0}", CharacterStats["Constitution"]);
-                Console.WriteLine("You have {0} hit points. (You get an additional 10 for every (Con) pt. and for every level.", CharacterStats["MaxHitPoints"]);
-                Console.Write("Please enter the number of the stat to increase.\nYou have {0} choices remaining: ", choice);
-                pickStat = Convert.ToInt32(Console.ReadLine());
-                switch (pickStat)
+                CharacterInfoBlock.ClearInfoBlock();
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("*You feel empowered from all of your recent combat experience and training*");
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Congratulations on your advancement, please choose 2 ability scores to improve:");
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("1) Strength - current value {0}", CharacterStats["Strength"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("2) Agility - current value {0}", CharacterStats["Agility"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("3) Intelligence - current value {0}", CharacterStats["Intelligence"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("4) Charisma - current value {0}", CharacterStats["Charisma"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("5) Luck - current value {0}", CharacterStats["Luck"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("6) Constitution - current value {0}", CharacterStats["Constitution"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("You have {0} hit points. (You get an additional 10 for every (Con) pt. and for every level.", CharacterStats["MaxHitPoints"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Please enter the number of the stat to increase.  You have {0} choices remaining: ", choice);
+                var input = Console.ReadKey().Key;
+                switch (input)
                 {
-                    case 1:
+                    case ConsoleKey.D1:
                         CharacterStats["Strength"]++;
+                        choice--;
                         break;
-                    case 2:
+                    case ConsoleKey.D2:
                         CharacterStats["Agility"]++;
+                        choice--;
                         break;
-                    case 3:
+                    case ConsoleKey.D3:
                         CharacterStats["Intelligence"]++;
+                        choice--;
                         break;
-                    case 4:
+                    case ConsoleKey.D4:
                         CharacterStats["Charisma"]++;
+                        choice--;
                         break;
-                    case 5:
+                    case ConsoleKey.D5:
                         CharacterStats["Luck"]++;
+                        choice--;
                         break;
-                    case 6:
+                    case ConsoleKey.D6:
                         CharacterStats["Constitution"]++;
                         CharacterStats["MaxHitPoints"] += 10;
                         CharacterStats["CurrentHitPoints"] += 10;
+                        choice--;
                         break;
-                }//end switch
-                addStats++;
-                choice--;
+                    default:
+                        yCoord++;
+                        Console.SetCursorPosition(xCoord, yCoord);
+                        Console.Write("Invalid Selection.  Press any key to try again.");
+                        var errorKeystroke = Console.ReadKey().Key;
+                        yCoord = originalYCoord;
+                        break;
 
-            } while (addStats < 2);
+                }//end switch
+                
+
+            } while (choice > 0);
 
             CharacterStats["MaxHitPoints"] += 5;
             CharacterStats["CurrentHitPoints"] += 5;
@@ -335,67 +366,87 @@ namespace SimpleRPG
         public void PlayerCharacterDie(GameCharacter fighter)
         {
             int xCoord = 1, yCoord = 7, originalYCoord = yCoord;
+            bool correctSelection = true;
 
-            CharacterInfoBlock.ClearInfoBlock();
-            Console.SetCursorPosition(xCoord, yCoord);
-            Console.Write("{0} has died and has gone to Valhalla with the others who \n have died a glorious death in the arena.", fighter.CharacterInfo["Name"]);
-            yCoord++;
-            Console.SetCursorPosition(xCoord, yCoord);
-            Console.Write("Do you wish to start a new game?");
-            yCoord++;
-            Console.SetCursorPosition(xCoord, yCoord);
-            string yesno = Console.ReadLine();
-            yesno = yesno.ToLower();
-            switch (yesno)
+            do
             {
-                case "y":
-                    {
+                CharacterInfoBlock.ClearInfoBlock();
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("{0} has died and has gone to Valhalla with the others who \n have died a glorious death in the arena.", fighter.CharacterInfo["Name"]);
+                yCoord++;
+                Console.SetCursorPosition(xCoord, yCoord);
+                Console.Write("Do you wish to start a new game?");
+                var input = Console.ReadKey().Key;
+                switch (input)
+                {
+                    case ConsoleKey.Y:
                         //enter game stats here
                         int enemyPick = 1;
 
                         Menu.MainMenu(GameCharacter.CharCreator(xCoord, originalYCoord, fighter), enemyPick);
                         break;
-                    }
-                case "n":
-                    {
+                    case ConsoleKey.N:
                         //enter stats here (kills, money, fame, etc.)
                         yCoord++;
                         Console.SetCursorPosition(xCoord, yCoord);
                         Console.WriteLine("Come back to the arena soon");
                         Menu.QuitGame();
                         break;
+                    default:
+                        yCoord++;
+                        Console.SetCursorPosition(xCoord, yCoord);
+                        Console.WriteLine("Invalid selection.  Press any key to try again.");
+                        var errorKeystroke = Console.ReadKey().Key;
+                        correctSelection = false;
+                        yCoord = originalYCoord;
+                        break;
 
-                    }
-
+                }
             }
+            while (!correctSelection);
 
         }
 
         public void NPCDie(GameCharacter fighter, GameCharacter enemy, int enemyPick)
         {
-            Console.WriteLine("You have felled the notorious gladiator, {0}", enemy.CharacterInfo["Name"]);
-            Console.WriteLine("You collect your reward and hear the crowd cheer as you exit the arena");
+            int xCoord = 1, yCoord = 7;
+
+            CharacterInfoBlock.ClearInfoBlock();
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("You have felled the notorious gladiator, {0}", enemy.CharacterInfo["Name"]);
+            yCoord++;
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("You collect your reward and hear the crowd cheer as you exit the arena");            
             fighter.CharacterStats["Fame"] += (enemy.CharacterStats["Notoriety"] * 2 + fighter.CharacterStats["Notoriety"]);
             var charismaMod = (fighter.CharacterStats["Charisma"] / 2);
             charismaMod += fighter.CharacterStats["Fame"];
             fighter.CharacterStats["Money"] += (enemy.CharacterStats["Notoriety"] * 500);
-            Console.WriteLine("You earned {0} Caesars for winning in the arena!", fighter.CharacterStats["Money"]);
+            yCoord++;
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("You earned {0} Caesars for winning in the arena!", fighter.CharacterStats["Money"]);
             fighter.CharacterStats["MoneyEarned"] += fighter.CharacterStats["Money"];
-            Console.WriteLine("You have earned {0} Caesars in your career to date.", fighter.CharacterStats["MoneyEarned"]);
+            yCoord++;
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("You have earned {0} Caesars in your career to date.", fighter.CharacterStats["MoneyEarned"]);
             fighter.CharacterStats["Fury"] = 0;
             fighter.CharacterStats["Spirit"] = 0;
             fighter.CharacterStats["Notoriety"]++;
             fighter.CharacterStats["Kills"]++;
             fighter.CharacterStats["Level"]++;
-            Console.WriteLine("You have offed {0} enemy gladiators.", fighter.CharacterStats["Kills"]);
+            yCoord++;
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("You have offed {0} enemy gladiators.", fighter.CharacterStats["Kills"]);
             fighter.CharacterStats["CurrentHitPoints"] = fighter.CharacterStats["MaxHitPoints"];
             enemyPick++;
             if (enemyPick > 6)
-                Menu.WinGame(fighter);
-
-            Console.WriteLine("You head back to the Gladiator quarters for some much-needed rest");
-            Console.WriteLine("Press any key to continue");
-            Console.ReadLine();
+                Menu.WinGame();
+            yCoord++;
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("You head back to the Gladiator quarters for some much-needed rest");
+            yCoord++;
+            Console.SetCursorPosition(xCoord, yCoord);
+            Console.Write("Press any key to continue");
+            var input = Console.ReadKey().Key;
             fighter.LevelUp();
             Menu.MainMenu(fighter, enemyPick);
 
