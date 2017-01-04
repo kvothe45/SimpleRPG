@@ -36,15 +36,5 @@ namespace SimpleRPG
             fighterInfo["TagLineSoft"] = "Oooo, you're going to get it now!";
         }
 
-        public static void instantiateCoordinates(ref Dictionary<string, CoordPoint> roomCoordinates)
-        {
-            CoordPoint upperLeftCoord = new CoordPoint();
-            upperLeftCoord.X = 1;
-            upperLeftCoord.Y = 1;
-
-            roomCoordinates.Add("upperLeft", upperLeftCoord);
-
-            //Console.WriteLine(roomCoordinates["upperLeft"].X);
-        }
     }
 }

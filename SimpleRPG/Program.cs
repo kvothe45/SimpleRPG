@@ -24,7 +24,6 @@ namespace SimpleRPG
             Dictionary<string, int> fighterStats = new Dictionary<string, int>();
             Dictionary<string, string> fighterInfo = new Dictionary<string, string>();
             InstantiateDictionary.instatiateDictionary(ref fighterStats, ref fighterInfo);
-            InstantiateDictionary.instantiateCoordinates(ref roomCoord);
 
             bool Game_Over = false;
 
