@@ -8,7 +8,7 @@ namespace SimpleRPG
 {
     partial class Menu
     {
-        public static void ArenaMenu(GameCharacter f, int enemyPick)
+        public static void ArenaMenu(GameCharacter f, int enemyPick, ref int[,] roomCoordinates)
         {
             bool keepGoing = true;
             int xCoord = 1, yCoord = 18, originalYCoord = yCoord;
@@ -54,14 +54,14 @@ namespace SimpleRPG
                             yCoord += 2;
                             Console.SetCursorPosition(xCoord, yCoord);
                             Console.Write("You will be fighting {0} in the arena!", enemy.CharacterInfo["Name"]);
-                            Menu.CombatMenu(f, enemy, enemyPick);
+                            Menu.CombatMenu(f, enemy, enemyPick, ref roomCoordinates);
                             break;
                         //goes to Gladiator Store (TO-DO)
                         case ConsoleKey.C:
                             break;
                         //goes to Character View Page (TO-DO)
                         case ConsoleKey.G:
-                            Menu.MainMenu(f, enemyPick);
+                            Menu.MainMenu(f, enemyPick, ref roomCoordinates);
                             break;
                         //throws exception if format is screwy
                         default:

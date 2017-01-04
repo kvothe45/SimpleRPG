@@ -31,7 +31,7 @@ namespace SimpleRPG
 
         }
 
-        public static void MainMenu(GameCharacter f, int enemyPick)
+        public static void MainMenu(GameCharacter f, int enemyPick, ref int[,] roomCoordinates)
         {
             bool keepGoing = true;
             int xCoord = 1, yCoord = 18, originalYCoord = yCoord;
@@ -71,7 +71,7 @@ namespace SimpleRPG
                     {
                         //goes to the Arena Menu (TO-DO)
                         case ConsoleKey.E:
-                            Menu.ArenaMenu(f, enemyPick);
+                            Menu.ArenaMenu(f, enemyPick, ref roomCoordinates);
                             break;
                         //goes to Options Menu
                         case ConsoleKey.C:

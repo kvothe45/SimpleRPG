@@ -20,10 +20,10 @@ namespace SimpleRPG
 
             Console.CursorVisible = false;
 
-            drawWall(ref roomCoordinates);
+            DrawRoom(ref roomCoordinates);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.BackgroundColor = ConsoleColor.Blue;
-            drawCharacter(character); // Write the character on the default location (1,1).
+            DrawCharacter(character); // Write the character on the default location (1,1).
 
             while (true)
             {
@@ -36,18 +36,6 @@ namespace SimpleRPG
 
                     switch (command)
                     {
-                        //case ConsoleKey.DownArrow:
-                        //    if (y >= roomCoordinates[0, 1] + 1 && y <= roomCoordinates[1, 1] - 2)
-                        //    {
-                        //        y++;
-                        //    }
-                        //    break;
-                        //case ConsoleKey.UpArrow:
-                        //    if (y >= roomCoordinates[0, 1] + 2 && y <= roomCoordinates[1, 1] - 1)
-                        //    {
-                        //        y--;
-                        //    }
-                        //    break;
                         case ConsoleKey.LeftArrow:
                             if (x >= roomCoordinates[0, 0] + 13 && x <= roomCoordinates[1, 0] - 12)
                             {
@@ -71,13 +59,13 @@ namespace SimpleRPG
                         //move the character
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.BackgroundColor = ConsoleColor.Blue;
-                        drawCharacter(character, x);
+                        DrawCharacter(character, x);
 
                         //erase where the character was
                         Console.ResetColor();
-                        drawCharacter(' ', originalX);
+                        DrawCharacter(' ', originalX);
                     }
-                    drawWall(ref roomCoordinates);
+                    DrawRoom(ref roomCoordinates);
                 }
                 else
                 {
@@ -87,7 +75,46 @@ namespace SimpleRPG
         }
 
 
-        public static void writeCharacter(char toWrite, int x, int y)
+        public static void MoveCharacter(bool isPlayer, ref int[,] roomCoordinates, int range)
+        {
+            char toWrite = ' ';
+
+            Console.ResetColor();
+            if (range > 1 && isPlayer)
+            {
+                DrawCharacter(toWrite, roomCoordinates[2, 0]);
+                roomCoordinates[2, 0] += 12;
+                toWrite = '*';
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.BackgroundColor = ConsoleColor.Blue;
+                DrawCharacter(toWrite, roomCoordinates[2, 0]);
+            }
+            else if (range > 1 && !isPlayer)
+            {
+                DrawCharacter(toWrite, roomCoordinates[3, 0]);
+                roomCoordinates[3, 0] -= 12;
+                toWrite = '*';
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.BackgroundColor = ConsoleColor.Red;
+                DrawCharacter(toWrite, roomCoordinates[3, 0]);
+            }
+            Console.ResetColor();
+        }
+
+        public static void SetCharacters(int[,] roomCoordinates)
+        {
+            char toWrite = '*';
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.BackgroundColor = ConsoleColor.Blue;
+            DrawCharacter(toWrite, roomCoordinates[2, 0]);
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.Red;
+            DrawCharacter(toWrite, roomCoordinates[3, 0]);
+            Console.ResetColor();
+
+        }
+
+        public static void WriteSingleChar(char toWrite, int x, int y)
         {
             try
             {
@@ -103,27 +130,27 @@ namespace SimpleRPG
             }
         }
 
-        public static void drawCharacter(char toWrite, int x = 2)
+        public static void DrawCharacter(char toWrite, int x = 2)
         {
             int y;
 
             for (int i = 0; i < 4; i++)
             {
                 y = 2;
-                writeCharacter(toWrite, x + i, y);
-                writeCharacter(toWrite, x + i + 8, y);
+                WriteSingleChar(toWrite, x + i, y);
+                WriteSingleChar(toWrite, x + i + 8, y);
                 y = 3;
-                writeCharacter(toWrite, x + i + 4, y);
+                WriteSingleChar(toWrite, x + i + 4, y);
                 y = 4;
-                writeCharacter(toWrite, x + i, y);
-                writeCharacter(toWrite, x + i + 8, y);
+                WriteSingleChar(toWrite, x + i, y);
+                WriteSingleChar(toWrite, x + i + 8, y);
             }
 
         }
 
 
 
-        public static void drawWall(ref int[,] roomCoordinates)
+        public static void DrawRoom(ref int[,] roomCoordinates)
         {
             int x, y = roomCoordinates[0, 1];
             int shiftY = roomCoordinates[1, 1] - roomCoordinates[0, 1];
@@ -156,7 +183,24 @@ namespace SimpleRPG
 
         }
 
-        public static void createRoom(ref int[,] roomCoordinates)
+        public static void EraseAndResetRoom(ref int[,] roomCoordinates)
+        {
+
+            string eraseString = "";
+
+            for (int i = 0; i < roomCoordinates[1, 0]; i++)
+                eraseString += " ";
+
+            for (int i = 0; i < roomCoordinates[1,1]; i++)
+            {
+                Console.SetCursorPosition(roomCoordinates[0,0], i + 1);
+                Console.Write(eraseString);
+            }
+
+            CreateRoom(ref roomCoordinates);
+        }
+
+        public static void CreateRoom(ref int[,] roomCoordinates)
         {
             // set room coordinates
             roomCoordinates[0, 0] = 1;

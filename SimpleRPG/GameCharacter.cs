@@ -363,7 +363,7 @@ namespace SimpleRPG
 
         }//end LevelUp()
 
-        public void PlayerCharacterDie(GameCharacter fighter)
+        public void PlayerCharacterDie(GameCharacter fighter, ref int[,] roomCoordinates)
         {
             int xCoord = 1, yCoord = 7, originalYCoord = yCoord;
             bool correctSelection = true;
@@ -382,8 +382,8 @@ namespace SimpleRPG
                     case ConsoleKey.Y:
                         //enter game stats here
                         int enemyPick = 1;
-
-                        Menu.MainMenu(GameCharacter.CharCreator(xCoord, originalYCoord, fighter), enemyPick);
+                        CharacterRoom.EraseAndResetRoom(ref roomCoordinates);
+                        Menu.MainMenu(GameCharacter.CharCreator(xCoord, originalYCoord, fighter), enemyPick, ref roomCoordinates);
                         break;
                     case ConsoleKey.N:
                         //enter stats here (kills, money, fame, etc.)
@@ -407,7 +407,7 @@ namespace SimpleRPG
 
         }
 
-        public void NPCDie(GameCharacter fighter, GameCharacter enemy, int enemyPick)
+        public void NPCDie(GameCharacter fighter, GameCharacter enemy, int enemyPick, ref int[,] roomCoordinates)
         {
             int xCoord = 1, yCoord = 7;
 
@@ -448,7 +448,8 @@ namespace SimpleRPG
             Console.Write("Press any key to continue");
             var input = Console.ReadKey().Key;
             fighter.LevelUp();
-            Menu.MainMenu(fighter, enemyPick);
+            CharacterRoom.EraseAndResetRoom(ref roomCoordinates);
+            Menu.MainMenu(fighter, enemyPick,ref roomCoordinates);
 
         }//end enemyDie
 

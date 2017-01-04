@@ -9,12 +9,14 @@ namespace SimpleRPG
     partial class Menu
     {
 
-        public static void CombatMenu(GameCharacter fighter, GameCharacter enemy, int enemyPick)
+        public static void CombatMenu(GameCharacter fighter, GameCharacter enemy, int enemyPick, ref int[,] roomCoordinates)
         {
             bool CombatActive = true;
-            int range = 8, salve = 0, eSalve = 1, turn = 0, arrows = 4, eArrows = 4;
+            int range = 9, salve = 0, eSalve = 1, turn = 0, arrows = 4, eArrows = 4;
             int xCoord = 1, yCoord = 18, originalYCoord = yCoord, fighterStatXCoord = 53, enemyStatXCoord = 105, specialAttackYCoord = 10;
 
+            CharacterRoom.DrawRoom(ref roomCoordinates);
+            CharacterRoom.SetCharacters(roomCoordinates);
             //Boolean check in while loop keeps character in combat when actively fighting 
             while (CombatActive)
             {
@@ -75,15 +77,15 @@ namespace SimpleRPG
                     switch (input)
                     {
                         case ConsoleKey.D1:
-                            CombatMelee(ref fighter, ref enemy, range, enemyPick);
+                            CombatMelee(ref fighter, ref enemy, range, enemyPick, ref roomCoordinates);
                             turn++;
                             break;
                         case ConsoleKey.D2:
-                            CombatRanged(ref fighter, ref enemy, ref range, ref arrows, enemyPick);
+                            CombatRanged(ref fighter, ref enemy, ref range, ref arrows, enemyPick, ref roomCoordinates);
                             turn++;
                             break;
                         case ConsoleKey.D3:
-                            CombatCloseDistance(ref range);
+                            CombatCloseDistance(ref range, ref roomCoordinates);
                             turn++;
                             break;
                         case ConsoleKey.D4:
@@ -93,7 +95,7 @@ namespace SimpleRPG
                         case ConsoleKey.D5:
                             break;
                         case ConsoleKey.D6:
-                            CombatSpecialAttack(ref fighter, ref enemy, ref turn, yCoord, enemyPick);
+                            CombatSpecialAttack(ref fighter, ref enemy, ref turn, yCoord, enemyPick, ref roomCoordinates);
                             break;
                         default:
                             yCoord++;
@@ -106,7 +108,7 @@ namespace SimpleRPG
                     CharacterInfoBlock.StatBlockDisplay(fighterStatXCoord, fighter);
                     CharacterInfoBlock.StatBlockDisplay(enemyStatXCoord, fighter);
 
-                    CombatEnemyTurn(ref fighter, ref enemy, ref range, ref eSalve, ref eArrows);
+                    CombatEnemyTurn(ref fighter, ref enemy, ref range, ref eSalve, ref eArrows, ref roomCoordinates);
 
                     CharacterInfoBlock.StatBlockDisplay(fighterStatXCoord, fighter);
                     CharacterInfoBlock.StatBlockDisplay(enemyStatXCoord, fighter);
@@ -171,7 +173,8 @@ namespace SimpleRPG
 
         }
 
-        public static void CombatMelee(ref GameCharacter fighter, ref GameCharacter enemy, int range, int enemyPick)
+        public static void CombatMelee(ref GameCharacter fighter, ref GameCharacter enemy, int range, int enemyPick,
+            ref int[,] roomCoordinates)
         {
 
             int xCoord = 1, yCoord = 11, originalYCoord = yCoord, infoBlockDepth = 6;
@@ -194,12 +197,12 @@ namespace SimpleRPG
                     {
                         //ends combat when enemy dies from regular attack
                         //CombatActive = false;
-                        fighter.NPCDie(fighter, enemy, enemyPick);
+                        fighter.NPCDie(fighter, enemy, enemyPick, ref roomCoordinates);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("\nYou miss");
+                    Console.WriteLine("You miss");
                     fighter.CharacterStats["Spirit"]--;
                 }
             }
@@ -209,10 +212,12 @@ namespace SimpleRPG
             }
         }
 
-        public static void CombatRanged(ref GameCharacter fighter, ref GameCharacter enemy, ref int range, ref int arrows, int enemyPick)
+        public static void CombatRanged(ref GameCharacter fighter, ref GameCharacter enemy, ref int range, ref int arrows, int enemyPick,
+            ref int[,] roomCoordinates)
         {
 
             int xCoord = 1, yCoord = 11, originalYCoord = yCoord, infoBlockDepth = 6;
+            bool isPlayer;
 
             CharacterInfoBlock.ClearInfoBlock(yCoord, infoBlockDepth);
             Console.SetCursorPosition(xCoord, yCoord);
@@ -229,6 +234,8 @@ namespace SimpleRPG
                     if (fighter.RangedAttack(range) > range)
                     {
                         Console.Write("Bullseye! {0} grunts, clearly pissed off, and sprints at you angrily", enemy.CharacterInfo["Name"]);
+                        isPlayer = false;
+                        CharacterRoom.MoveCharacter(isPlayer, ref roomCoordinates, range);
                         range--;
                         enemy.CharacterStats["CurrentHitPoints"] -= fighter.CalculateRanged();
                         arrows--;
@@ -236,7 +243,7 @@ namespace SimpleRPG
                         {
                             //ends combat when enemy dies from ranged attack
                             //CombatActive = false;
-                            fighter.NPCDie(fighter, enemy, enemyPick);
+                            fighter.NPCDie(fighter, enemy, enemyPick, ref roomCoordinates);
                         }
                     }
                     else
@@ -255,15 +262,17 @@ namespace SimpleRPG
             }
         }
 
-        public static void CombatCloseDistance(ref int range)
+        public static void CombatCloseDistance(ref int range, ref int[,] roomCoordinates)
         {
             int xCoord = 1, yCoord = 11, originalYCoord = yCoord, infoBlockDepth = 6;
+            bool isPlayer = true;
 
             CharacterInfoBlock.ClearInfoBlock(yCoord, infoBlockDepth);
             Console.SetCursorPosition(xCoord, yCoord);
             if (range > 1)
             {
                 Console.Write("You sprint towards the enemy and make the craziest, most bloodthirsty face you can muster");
+                CharacterRoom.MoveCharacter(isPlayer, ref roomCoordinates, range);
                 range--;
             }
             else
@@ -290,7 +299,8 @@ namespace SimpleRPG
             }
         }
 
-        public static void CombatSpecialAttack(ref GameCharacter fighter, ref GameCharacter enemy, ref int turn, int statYCoord, int enemyPick)
+        public static void CombatSpecialAttack(ref GameCharacter fighter, ref GameCharacter enemy, ref int turn, int statYCoord,
+            int enemyPick, ref int[,] roomCoordinates)
         {
             int xCoord = 1, yCoord = 11, originalYCoord = yCoord, infoBlockDepth = 6, specialAttackYCoord = 10;
 
@@ -307,7 +317,7 @@ namespace SimpleRPG
                 if (enemy.CharacterStats["CurrentHitPoints"] <= 0)
                 {
                     //ends fight when enemy dies from special attack
-                    fighter.NPCDie(fighter, enemy, enemyPick);
+                    fighter.NPCDie(fighter, enemy, enemyPick, ref roomCoordinates);
                 }
                 turn++;
             }
@@ -318,9 +328,11 @@ namespace SimpleRPG
             }
         }
 
-        public static void CombatEnemyTurn(ref GameCharacter fighter, ref GameCharacter enemy, ref int range, ref int eSalve, ref int eArrows)
+        public static void CombatEnemyTurn(ref GameCharacter fighter, ref GameCharacter enemy, ref int range, ref int eSalve, 
+            ref int eArrows, ref int[,] roomCoordinates)
         {
             int xCoord = 1, yCoord = 14, originalYCoord = yCoord, infoBlockDepth = 3;
+            bool isPlayer;
 
             CharacterInfoBlock.ClearInfoBlock(yCoord, infoBlockDepth);
             Console.SetCursorPosition(xCoord, yCoord);
@@ -333,13 +345,15 @@ namespace SimpleRPG
                 if (enemy.RangedAttack(range) > range)
                 {
                     Console.Write("Bullseye! You grunt, pissed off, and sprint at the enemy angrily", enemy.CharacterInfo["Name"]);
+                    isPlayer = true;
+                    CharacterRoom.MoveCharacter(isPlayer, ref roomCoordinates, range);
                     range--;
                     fighter.CharacterStats["CurrentHitPoints"] -= enemy.CalculateRanged();
                     eArrows--;
                     if (fighter.CharacterStats["CurrentHitPoints"] <= 0)
                     {
                         //ends combat when you die from ranged attack
-                        fighter.PlayerCharacterDie(fighter);
+                        fighter.PlayerCharacterDie(fighter, ref roomCoordinates);
                     }
                 }
                 else
@@ -358,7 +372,7 @@ namespace SimpleRPG
                                                                            //conditional that checks if you have been killed by this special attack
                 if (fighter.CharacterStats["CurrentHitPoints"] <= 0)
                 {
-                    fighter.PlayerCharacterDie(fighter);
+                    fighter.PlayerCharacterDie(fighter, ref roomCoordinates);
                 }
             }//end special attack if
             else if (range > 1 && enemy.CharacterStats["CurrentHitPoints"] > 15)
@@ -367,6 +381,8 @@ namespace SimpleRPG
                 yCoord++;
                 Console.SetCursorPosition(xCoord, yCoord);
                 Console.Write("{0}", enemy.CharacterInfo["TagLineTough"]);
+                isPlayer = false;
+                CharacterRoom.MoveCharacter(isPlayer, ref roomCoordinates, range);
                 range--;
             }
             //if enemy is hurt, he will use his lone magic salve to heal up
@@ -401,7 +417,7 @@ namespace SimpleRPG
                     //if fighter's hp goes below zero, it's Valhalla-time!
                     if (fighter.CharacterStats["CurrentHitPoints"] <= 0)
                     {
-                        fighter.PlayerCharacterDie(fighter);
+                        fighter.PlayerCharacterDie(fighter, ref roomCoordinates);
                     }
                 }
                 else
@@ -429,7 +445,7 @@ namespace SimpleRPG
                     enemy.CharacterStats["Spirit"]++;
                     if (fighter.CharacterStats["CurrentHitPoints"] <= 0)
                     {
-                        fighter.PlayerCharacterDie(fighter);
+                        fighter.PlayerCharacterDie(fighter, ref roomCoordinates);
                     }
                 }
                 else
