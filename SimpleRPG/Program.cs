@@ -13,13 +13,14 @@ namespace SimpleRPG
 
             int y = Console.LargestWindowHeight;
             int x = Console.LargestWindowWidth;
-            int menuXCoordStart = 1, playerStatXCoordStart = 53, enemyStatXCoordStart = 105, enemyPick = 1, xCoord, yCoord; 
+            int enemyPick = 1, xCoord, yCoord;
             //all the coordinates that pertain to the room
             //[0,0] upper left x coordinate for room [0,1] upper left y coordinate for room
             //[1,0] lower right x coordinate for room [1,1] lower right y coordinate for room
             //[2,0] player x coordinate [2,1] player y coordinate
             //[3,0] enemy x coordinate [3,1] enemy y coordinate
             //[4,0] treasure x coordinate [4,1] treasure y coordinate
+            // menu X Coordinate Starts at 1,  player Stats X Coordinate Starts at 53, enemy Stat X Coordinate Starts at 105,
             int[,] roomCoordinates = new int[5, 2];
             GameCharacter fighter = new GameCharacter();
 
