@@ -28,6 +28,8 @@ namespace SimpleRPG
                 if (salve == 0 && turn == 0)
                 {
                     CombatIntro(enemy, ref salve);
+                    CharacterInfoBlock.StatBlockDisplay(fighterStatXCoord, fighter);
+                    CharacterInfoBlock.StatBlockDisplay(enemyStatXCoord, enemy);
                 }
                 else
                 {//displays character status during combat
@@ -106,12 +108,12 @@ namespace SimpleRPG
                     }//end switch
 
                     CharacterInfoBlock.StatBlockDisplay(fighterStatXCoord, fighter);
-                    CharacterInfoBlock.StatBlockDisplay(enemyStatXCoord, fighter);
+                    CharacterInfoBlock.StatBlockDisplay(enemyStatXCoord, enemy);
 
                     CombatEnemyTurn(ref fighter, ref enemy, ref range, ref eSalve, ref eArrows, ref roomCoordinates);
 
                     CharacterInfoBlock.StatBlockDisplay(fighterStatXCoord, fighter);
-                    CharacterInfoBlock.StatBlockDisplay(enemyStatXCoord, fighter);
+                    CharacterInfoBlock.StatBlockDisplay(enemyStatXCoord, enemy);
 
                     yCoord = originalYCoord;
 
@@ -158,17 +160,26 @@ namespace SimpleRPG
             CharacterInfoBlock.ClearInfoBlock(yCoord, infoBlockDepth);
             Console.SetCursorPosition(xCoord, yCoord);
             Console.Write("{0} is {1} passus away ('passus' is Roman for paces)", enemy.CharacterInfo["Name"], range);
+
             yCoord++;
             Console.SetCursorPosition(xCoord, yCoord);
             Console.Write("You have {0} arrows left\t\t", arrows);
+            xCoord = 53;
+            Console.SetCursorPosition(xCoord, yCoord);
             if (salve == 1)
                 Console.Write("You have a salve handy");
             else
                 Console.Write("You are out of salve");
+
             yCoord++;
+            xCoord = 1;
             Console.SetCursorPosition(xCoord, yCoord);
             Console.Write("You have {0} hit points left\t\t", fighter.CharacterStats["CurrentHitPoints"]);
+            xCoord = 53;
+            Console.SetCursorPosition(xCoord, yCoord);
             Console.Write("The enemy has {0} hit points left\t\t", enemy.CharacterStats["CurrentHitPoints"]);
+            xCoord = 105;
+            Console.SetCursorPosition(xCoord, yCoord);
             Console.Write("You have fought {0} round(s)", turn);
 
         }

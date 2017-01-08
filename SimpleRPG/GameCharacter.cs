@@ -291,7 +291,7 @@ namespace SimpleRPG
                 Console.Write("*You feel empowered from all of your recent combat experience and training*");
                 yCoord++;
                 Console.SetCursorPosition(xCoord, yCoord);
-                Console.Write("Congratulations on your advancement, please choose 2 ability scores to improve:");
+                Console.Write("Congratulations on your advancement, please choose {0} ability scores to improve:", choice);
                 yCoord++;
                 Console.SetCursorPosition(xCoord, yCoord);
                 Console.Write("1) Strength - current value {0}", CharacterStats["Strength"]);
@@ -354,10 +354,12 @@ namespace SimpleRPG
                         break;
 
                 }//end switch
-                
+
+                yCoord = originalYCoord;
 
             } while (choice > 0);
 
+            CharacterInfoBlock.ClearInfoBlock();
             CharacterStats["MaxHitPoints"] += 5;
             CharacterStats["CurrentHitPoints"] += 5;
 
